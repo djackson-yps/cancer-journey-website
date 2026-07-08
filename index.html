@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Cancer Journey — Your personal companion app</title>
+<meta name="description" content="A compassionate app to help you and your loved ones manage the practical and emotional side of a cancer journey. Food diary, journal, appointments, medications and more.">
+<meta property="og:title" content="My Cancer Journey">
+<meta property="og:description" content="A compassionate app to help you manage the practical and emotional side of a cancer journey.">
+<meta property="og:url" content="https://mycancerjourney.co.uk">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple: #6B4FA0;
+    --purple-light: #8B6FC0;
+    --purple-pale: #f3e5f5;
+    --purple-bg: #f9f5ff;
+    --text: #1a1a2e;
+    --text-muted: #666;
+    --border: #e8e0f5;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text);
+    line-height: 1.7;
+    background: #fff;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .nav-brand {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--purple);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-cta {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--purple);
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #4a2c7a 0%, #6B4FA0 45%, #9b75c8 100%);
+    color: white;
+    text-align: center;
+    padding: 72px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,0.08)'/%3E%3C/svg%3E");
+  }
+  .hero-inner { position: relative; max-width: 680px; margin: 0 auto; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50px;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 6vw, 54px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 span { color: #d4b8f5; }
+  .hero p {
+    font-size: clamp(16px, 2.5vw, 19px);
+    opacity: 0.9;
+    max-width: 520px;
+    margin: 0 auto 36px;
+    line-height: 1.65;
+  }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block;
+    padding: 16px 36px;
+    background: white;
+    color: var(--purple);
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 800;
+    transition: transform 0.15s, opacity 0.15s;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+  .btn-primary:hover { transform: translateY(-2px); opacity: 0.95; }
+  .btn-secondary {
+    display: inline-block;
+    padding: 16px 28px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 700;
+    transition: background 0.2s;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.25); }
+
+  /* ── SCREENS STRIP ── */
+  .screens-strip {
+    background: var(--purple-bg);
+    padding: 40px 24px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .screens-strip p {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .phone-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .phone-card {
+    background: var(--purple);
+    border-radius: 18px;
+    padding: 14px 18px 12px;
+    width: 130px;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(107,79,160,0.3);
+  }
+  .phone-card .icon { font-size: 28px; margin-bottom: 8px; }
+  .phone-card .label { opacity: 0.9; line-height: 1.3; }
+
+  /* ── SECTIONS ── */
+  .section { max-width: 900px; margin: 0 auto; padding: 64px 24px; }
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 12px;
+  }
+  .section h2 {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -0.3px;
+  }
+  .section p {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 620px;
+    line-height: 1.75;
+  }
+
+  /* ── STORY ── */
+  .story-section {
+    background: var(--purple-bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .story-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (min-width: 640px) {
+    .story-inner { grid-template-columns: auto 1fr; gap: 56px; }
+  }
+  .story-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .story-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--purple) 0%, #9b75c8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    box-shadow: 0 8px 32px rgba(107,79,160,0.35);
+  }
+  .story-text h2 {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.25;
+  }
+  .story-text p {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 14px;
+    max-width: 100%;
+  }
+  .story-text p:last-child { margin-bottom: 0; }
+
+  /* ── FEATURES GRID ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+  }
+  .feature-card {
+    background: var(--purple-bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(107,79,160,0.15);
+  }
+  .feature-icon {
+    font-size: 32px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .feature-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--purple);
+    margin-bottom: 8px;
+  }
+  .feature-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    max-width: 100%;
+  }
+
+  /* ── AI HIGHLIGHT ── */
+  .ai-section {
+    background: linear-gradient(135deg, #4a2c7a 0%, #6B4FA0 100%);
+    color: white;
+  }
+  .ai-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (min-width: 640px) {
+    .ai-inner { grid-template-columns: 1fr 1fr; gap: 56px; }
+  }
+  .ai-text h2 {
+    font-size: clamp(24px, 4vw, 34px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .ai-text p {
+    font-size: 16px;
+    opacity: 0.88;
+    line-height: 1.75;
+    margin-bottom: 14px;
+    max-width: 100%;
+  }
+  .ai-cards { display: flex; flex-direction: column; gap: 14px; }
+  .ai-card {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .ai-card-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .ai-card-text { font-size: 14px; opacity: 0.9; line-height: 1.55; }
+  .ai-card-text strong { display: block; font-size: 15px; opacity: 1; margin-bottom: 2px; }
+
+  /* ── SHARING ── */
+  .sharing-section {
+    background: linear-gradient(180deg, #fff 0%, var(--purple-bg) 100%);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .sharing-intro {
+    max-width: 660px;
+    margin-bottom: 56px;
+  }
+  .sharing-intro h2 { margin-bottom: 16px; }
+  .sharing-intro p { font-size: 17px; color: #444; line-height: 1.75; max-width: 100%; }
+  .sharing-intro p + p { margin-top: 12px; }
+
+  /* Connection diagram */
+  .circle-of-care {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 0 auto 56px;
+    max-width: 500px;
+  }
+  .coc-you {
+    background: var(--purple);
+    color: white;
+    border-radius: 20px;
+    padding: 20px 28px;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 6px 24px rgba(107,79,160,0.35);
+  }
+  .coc-you-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 12px; position: relative; }
+  .coc-you-icon-badge { position: absolute; bottom: 0; right: 0; width: 20px; height: 20px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; color: var(--purple); font-size: 10px; border: 2px solid var(--purple); }
+  .coc-you-name { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+  .coc-you-sub { font-size: 13px; opacity: 0.8; }
+  .coc-line {
+    width: 2px;
+    height: 28px;
+    background: var(--border);
+    margin: 0 auto;
+  }
+  .coc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+  }
+  .coc-person {
+    border-radius: 16px;
+    padding: 20px 18px;
+    text-align: center;
+    border: 2px solid var(--border);
+    background: white;
+    position: relative;
+  }
+  .coc-person.contributor { border-color: #b39ddb; background: #f3e5f5; }
+  .coc-person.viewer { border-color: var(--border); background: white; }
+  .coc-person-role {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .role-contributor { background: #b39ddb; color: #3a1a6a; }
+  .role-viewer { background: #e8e0f5; color: var(--purple); }
+  .coc-person-icon { position: relative; width: 44px; height: 44px; margin: 0 auto 10px; }
+  .coc-person-icon-main { width: 44px; height: 44px; border-radius: 50%; background: rgba(107,79,160,0.12); display: flex; align-items: center; justify-content: center; color: var(--purple); font-size: 20px; }
+  .coc-person-icon-badge { position: absolute; bottom: 0; right: 0; width: 18px; height: 18px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; color: white; font-size: 9px; border: 2px solid white; }
+  .coc-person-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .coc-person-eg { font-size: 12px; color: var(--text-muted); }
+
+  /* Role detail cards */
+  .role-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 0;
+  }
+  @media (min-width: 600px) {
+    .role-cards { grid-template-columns: repeat(3, 1fr); }
+  }
+  .role-card {
+    border-radius: 20px;
+    padding: 28px 24px;
+    border: 2px solid var(--border);
+    background: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .role-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .role-card.card-you::before { background: var(--purple); }
+  .role-card.card-contributor::before { background: #b39ddb; }
+  .role-card.card-viewer::before { background: #d4b8f5; }
+  .role-card.card-you { border-color: var(--purple); background: var(--purple-bg); }
+  /* Duo icon */
+  .role-icon-duo { position: relative; width: 64px; height: 64px; margin-bottom: 16px; }
+  .role-icon-main { width: 64px; height: 64px; border-radius: 50%; background: #ede8f7; display: flex; align-items: center; justify-content: center; color: #6B4FA0; font-size: 28px; }
+  .role-icon-badge { position: absolute; bottom: 0; right: 0; width: 24px; height: 24px; border-radius: 50%; background: #6B4FA0; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; border: 2.5px solid white; }
+
+  .role-card-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+  }
+  .badge-you2 { background: var(--purple); color: white; }
+  .badge-contrib2 { background: #b39ddb; color: #3a1a6a; }
+  .badge-viewer2 { background: #e8e0f5; color: var(--purple); }
+  .role-card h3 { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .role-card .role-who { font-size: 13px; color: var(--text-muted); font-style: italic; margin-bottom: 14px; }
+  .role-card ul { padding: 0; list-style: none; }
+  .role-card ul li {
+    font-size: 14px;
+    color: #444;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.45;
+    max-width: 100%;
+  }
+  .role-card ul li:last-child { border-bottom: none; }
+  .role-card ul li::before { content: '✓'; color: var(--purple); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  /* Quote strip */
+  .quote-strip {
+    background: var(--purple);
+    color: white;
+    border-radius: 20px;
+    padding: 32px 28px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .quote-strip blockquote {
+    font-size: clamp(16px, 2.5vw, 20px);
+    font-weight: 600;
+    line-height: 1.6;
+    opacity: 0.95;
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+  .quote-strip cite { font-size: 13px; opacity: 0.65; font-style: normal; }
+
+  /* ── PRIVACY STRIP ── */
+  .privacy-strip {
+    background: #1a1a2e;
+    color: white;
+    padding: 48px 24px;
+    text-align: center;
+  }
+  .privacy-strip h2 {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+  .privacy-strip p {
+    font-size: 15px;
+    opacity: 0.7;
+    max-width: 560px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+  }
+  .privacy-pills {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .privacy-strip a { color: rgba(255,255,255,0.55); font-size: 13px; text-decoration: underline; }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    text-align: center;
+    padding: 72px 24px;
+    background: var(--purple-bg);
+    border-top: 1px solid var(--border);
+  }
+  .cta-banner h2 {
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--purple);
+    line-height: 1.2;
+  }
+  .cta-banner p {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+  .btn-big {
+    display: inline-block;
+    padding: 18px 44px;
+    background: var(--purple);
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 800;
+    box-shadow: 0 6px 24px rgba(107,79,160,0.35);
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  .btn-big:hover { transform: translateY(-2px); opacity: 0.9; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1a1a2e;
+    color: rgba(255,255,255,0.5);
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  footer a { color: rgba(255,255,255,0.6); text-decoration: underline; margin: 0 8px; }
+
+  /* ── DIVIDER ── */
+  hr.soft { border: none; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">💜 My Cancer Journey</a>
+  <a href="https://app.mycancerjourney.co.uk" class="nav-cta" target="_blank">Open App →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Designed for people facing cancer</div>
+    <h1>Your personal companion<br><span>through every step</span></h1>
+    <p>A caring app that helps you and your loved ones manage the practical and emotional side of a cancer journey — all in one private, secure place.</p>
+    <div class="hero-btns">
+      <a href="https://app.mycancerjourney.co.uk" class="btn-primary" target="_blank">Open the App</a>
+      <a href="#features" class="btn-secondary">See Features</a>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS STRIP -->
+<div class="screens-strip">
+  <p>Everything you need, all in one place</p>
+  <div class="phone-row">
+    <div class="phone-card"><div class="icon">🍽️</div><div class="label">Food Diary</div></div>
+    <div class="phone-card"><div class="icon">📔</div><div class="label">Journal</div></div>
+    <div class="phone-card"><div class="icon">📅</div><div class="label">Diary</div></div>
+    <div class="phone-card"><div class="icon">💊</div><div class="label">Medications</div></div>
+    <div class="phone-card"><div class="icon">📄</div><div class="label">Documents</div></div>
+    <div class="phone-card"><div class="icon">💜</div><div class="label">Motivation</div></div>
+  </div>
+</div>
+
+<!-- STORY -->
+<section class="story-section">
+  <div class="story-inner">
+    <div class="story-icon-wrap">
+      <div class="story-icon">🤍</div>
+    </div>
+    <div class="story-text">
+      <div class="section-label">Why I built this</div>
+      <h2>Built from personal experience</h2>
+      <p>When I was diagnosed with cancer, I found myself juggling appointments, medications, a changing diet, mountains of paperwork, and trying to process it all emotionally — all at the same time. I couldn't find a single app that understood what that felt like.</p>
+      <p>So I built one. My Cancer Journey was created not in a boardroom, but from lived experience. Every feature exists because I needed it — or because someone I care about did. This is for you, built with love.</p>
+      <p>— <strong>David Jackson</strong>, Founder</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-label">Features</div>
+  <h2>Everything in one place, always at your side</h2>
+  <p>From what you eat to how you feel — My Cancer Journey keeps everything organised so you can focus on what matters most.</p>
+
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <span class="feature-icon">🍽️</span>
+      <h3>Smart Food Diary</h3>
+      <p>Just take a photo of your meal. Our AI recognises the food and logs estimated calories, protein, fat, and carbs automatically. No typing required.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">📔</span>
+      <h3>Personal Journal</h3>
+      <p>Write how you're really feeling. The journal has AI tools to fix grammar and improve clarity — so your words always come out exactly as you mean them.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🎤</span>
+      <h3>Voice Input</h3>
+      <p>Not up to typing? Tap Voice and speak your thoughts. Your words are transcribed instantly so you can capture how you feel in the moment.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">📅</span>
+      <h3>Medical Diary</h3>
+      <p>Keep track of every appointment, scan, and treatment date. Export to your phone's calendar or share a PDF with your care team.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">💊</span>
+      <h3>Medication Tracker</h3>
+      <p>Log all your medications with doses and schedules. Never lose track of what you're taking, and look up information about any medication instantly.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">📄</span>
+      <h3>Medical Documents</h3>
+      <p>Upload and store your letters, scan results, and important documents securely. They're always with you when you need them most.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🎵</span>
+      <h3>Music Therapy</h3>
+      <p>Save your Spotify, Apple Music, and YouTube playlists in one place. Music is medicine — your favourites are always one tap away.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">💜</span>
+      <h3>Motivation Button</h3>
+      <p>On the hard days, tap Motivate Me for something warm, uplifting, and personal. Because sometimes you just need a reminder of how strong you are.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🔗</span>
+      <h3>Resource Library</h3>
+      <p>Save links to charities, support groups, helpful websites, and anything else you want to revisit — all in one organised place.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- AI SECTION -->
+<section class="ai-section">
+  <div class="ai-inner">
+    <div class="ai-text">
+      <div class="section-label" style="color:#d4b8f5;">Powered by AI</div>
+      <h2>Intelligent tools that do the heavy lifting</h2>
+      <p>Managing a cancer journey involves a lot of information. Our built-in AI features take the effort out of the everyday tasks so your energy goes where it's needed.</p>
+      <p>All AI processing is done securely via server-side functions — your personal data never leaves our secure infrastructure.</p>
+    </div>
+    <div class="ai-cards">
+      <div class="ai-card">
+        <div class="ai-card-icon">📸</div>
+        <div class="ai-card-text">
+          <strong>Photo food recognition</strong>
+          Snap a photo of any meal and get an instant nutritional breakdown — calories, protein, fat, and carbs.
+        </div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-icon">✍️</div>
+        <div class="ai-card-text">
+          <strong>Journal grammar & clarity</strong>
+          Fix spelling, improve readability, or rewrite a journal entry for clarity — while keeping your personal voice.
+        </div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-icon">💊</div>
+        <div class="ai-card-text">
+          <strong>Medication information</strong>
+          Tap any medication to get a plain-English explanation of what it is and what it does.
+        </div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-icon">💜</div>
+        <div class="ai-card-text">
+          <strong>Personalised motivation</strong>
+          When you need a lift, AI generates something warm and encouraging just for you.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHARING -->
+<section class="section sharing-section">
+
+  <div class="sharing-intro">
+    <div class="section-label">Built for everyone around you</div>
+    <h2>A cancer journey is never faced alone</h2>
+    <p>When someone is going through cancer, everyone around them wants to help — family, friends, and the clinical team. But staying connected and informed without being intrusive is hard.</p>
+    <p>My Cancer Journey solves this. The person at the centre stays in full control, while the people supporting them — loved ones and healthcare professionals alike — can stay connected, contribute, and monitor progress, all within the same secure app.</p>
+  </div>
+
+  <!-- Circle of care diagram -->
+  <div class="circle-of-care">
+    <div class="coc-you">
+      <div class="coc-you-icon">
+        <i class="ti ti-user" aria-hidden="true"></i>
+        <div class="coc-you-icon-badge"><i class="ti ti-heart" aria-hidden="true"></i></div>
+      </div>
+      <div class="coc-you-name">You</div>
+      <div class="coc-you-sub">The person on the journey — always in control</div>
+    </div>
+    <div class="coc-line"></div>
+    <div class="coc-row">
+      <div class="coc-person contributor">
+        <div class="coc-person-icon">
+          <div class="coc-person-icon-main"><i class="ti ti-user" aria-hidden="true"></i></div>
+          <div class="coc-person-icon-badge"><i class="ti ti-plus" aria-hidden="true"></i></div>
+        </div>
+        <div class="coc-person-role role-contributor">Contributor</div>
+        <div class="coc-person-label">Carer or Clinician</div>
+        <div class="coc-person-eg">Can add &amp; read</div>
+      </div>
+      <div class="coc-person viewer">
+        <div class="coc-person-icon">
+          <div class="coc-person-icon-main"><i class="ti ti-users" aria-hidden="true"></i></div>
+          <div class="coc-person-icon-badge"><i class="ti ti-eye" aria-hidden="true"></i></div>
+        </div>
+        <div class="coc-person-role role-viewer">Viewer</div>
+        <div class="coc-person-label">Family or Specialist</div>
+        <div class="coc-person-eg">Can read only</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Role detail cards -->
+  <div class="role-cards">
+
+    <div class="role-card card-you">
+      <div class="role-icon-duo">
+        <div class="role-icon-main"><i class="ti ti-user" aria-hidden="true"></i></div>
+        <div class="role-icon-badge"><i class="ti ti-heart" aria-hidden="true"></i></div>
+      </div>
+      <span class="role-card-badge badge-you2">Owner — You</span>
+      <h3>Your journey, your rules</h3>
+      <p class="role-who">The person going through cancer</p>
+      <ul>
+        <li>Full access to every section of the app</li>
+        <li>Decide which sections others can see</li>
+        <li>Invite anyone by email and assign their role</li>
+        <li>Revoke access for anyone, at any time</li>
+        <li>Keep your private journal completely to yourself</li>
+        <li>Change what's shared as your needs change</li>
+      </ul>
+    </div>
+
+    <div class="role-card card-contributor">
+      <div class="role-icon-duo">
+        <div class="role-icon-main"><i class="ti ti-user" aria-hidden="true"></i></div>
+        <div class="role-icon-badge"><i class="ti ti-plus" aria-hidden="true"></i></div>
+      </div>
+      <span class="role-card-badge badge-contrib2">Contributor</span>
+      <h3>Active support</h3>
+      <p class="role-who">Partner, carer, nutritionist, therapist</p>
+      <ul>
+        <li>Log medications and track schedules</li>
+        <li>Write notes, observations and messages of support</li>
+        <li>Upload documents, letters and reports</li>
+        <li>View all shared sections in real time</li>
+        <li>Nutritionists can monitor food intake directly</li>
+        <li>Therapists can follow journal entries and mood</li>
+      </ul>
+    </div>
+
+    <div class="role-card card-viewer">
+      <div class="role-icon-duo">
+        <div class="role-icon-main"><i class="ti ti-users" aria-hidden="true"></i></div>
+        <div class="role-icon-badge"><i class="ti ti-eye" aria-hidden="true"></i></div>
+      </div>
+      <span class="role-card-badge badge-viewer2">Viewer</span>
+      <h3>Stay informed</h3>
+      <p class="role-who">Family, friends, oncologists, doctors</p>
+      <ul>
+        <li>Monitor appointments and upcoming treatment dates</li>
+        <li>Follow food diary, medications and wellbeing</li>
+        <li>Read notes and updates in real time</li>
+        <li>Oncologists can track patient progress between visits</li>
+        <li>Stay connected without constant phone calls</li>
+        <li>Read-only access — safe, private and controlled</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="quote-strip">
+    <blockquote>"The people around you want to help. Now they can — in exactly the right way, at exactly the right time."</blockquote>
+    <cite>— My Cancer Journey</cite>
+  </div>
+
+</section>
+
+<!-- PROFESSIONALS SECTION -->
+<section class="section" id="professionals" style="border-top:1px solid var(--border);">
+  <div class="section-label">For Healthcare Professionals</div>
+  <h2>Monitor multiple patients from one account</h2>
+  <p>My Cancer Journey isn't just for patients and families. Healthcare professionals — oncologists, doctors, nutritionists, and therapists — can be invited to multiple patients' journeys and switch between them seamlessly from a single login.</p>
+
+  <div class="features-grid" style="margin-top:40px;">
+
+    <div class="feature-card">
+      <span class="feature-icon">🩺</span>
+      <h3>Oncologists &amp; Doctors</h3>
+      <p>Get invited as a Viewer to monitor a patient's appointments, medications, food diary and documents between clinical visits — without waiting for them to report back.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🥗</span>
+      <h3>Nutritionists &amp; Dietitians</h3>
+      <p>Join as a Contributor to monitor a patient's food diary in real time. Track nutritional intake, flag concerns, and add notes — all within the patient's own app.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🧠</span>
+      <h3>Therapists &amp; Counsellors</h3>
+      <p>Be invited as a Contributor to follow journal entries and mood notes. Stay connected to your patient's emotional journey between sessions.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">👥</span>
+      <h3>Multi-patient Access</h3>
+      <p>Looking after more than one patient? Each patient invites you individually and you switch between their journeys from a single account — no separate logins needed.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🔒</span>
+      <h3>Patient-controlled Privacy</h3>
+      <p>The patient decides exactly what you can see. They assign your role, choose which sections are visible, and can revoke your access at any time.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">📲</span>
+      <h3>Works on Any Device</h3>
+      <p>No app to install — just open the link on your phone, tablet or desktop. Access patient journeys wherever you are, whenever you need to.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="privacy-strip">
+  <h2>Your privacy is not an afterthought</h2>
+  <p>You're sharing deeply personal health information. We take that seriously. Your data is yours — it's never sold, never shared with advertisers, and never used for anything other than running the app.</p>
+  <div class="privacy-pills">
+    <div class="pill">🔒 Encrypted at rest &amp; in transit</div>
+    <div class="pill">🇬🇧 UK GDPR compliant</div>
+    <div class="pill">🚫 No ads. No tracking.</div>
+    <div class="pill">🛡️ Row-level security</div>
+    <div class="pill">🙅 Data never sold</div>
+  </div>
+  <a href='/privacy-policy'>Read our Privacy Policy →</a> &nbsp;&nbsp; <a href='/security'>Security details →</a>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <h2>Start your journey today</h2>
+  <p>My Cancer Journey is free to use and works on any phone or tablet — no app store download required.</p>
+  <a href="https://app.mycancerjourney.co.uk" class="btn-big" target="_blank">Open the App →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    &copy; 2026 My Cancer Journey Limited &nbsp;·&nbsp; Company No. 17318970
+    <br>
+    <a href='/privacy-policy'>Privacy Policy</a>
+    <a href='/security'>Security</a>
+    <a href="mailto:support@mycancerjourney.co.uk">Contact</a>
+    <a href="https://app.mycancerjourney.co.uk" target="_blank">Open App</a>
+  </p>
+  <p style="margin-top:12px;font-size:12px;opacity:0.5;">mycancerjourney.co.uk</p>
+</footer>
+
+</body>
+</html>

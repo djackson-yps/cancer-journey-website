@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security — My Cancer Journey</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; color: #1a1a2e; line-height: 1.7; }
+  header { background: #6B4FA0; color: white; padding: 40px 24px 32px; text-align: center; }
+  header h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+  header p { font-size: 14px; color: rgba(255,255,255,0.85); }
+  .back-bar { text-align: center; padding: 16px 24px; background: #f9f5ff; border-bottom: 1px solid #e8e0f5; }
+  .back-bar a { display: inline-block; padding: 10px 24px; background: #6B4FA0; color: white; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 700; }
+  .container { max-width: 720px; margin: 0 auto; padding: 32px 24px 60px; }
+  .highlight { background: #f3e5f5; border-radius: 10px; padding: 14px 18px; margin: 0 0 24px; font-size: 14px; color: #4a2c7a; border-left: 4px solid #6B4FA0; }
+  .card { background: white; border-radius: 14px; padding: 20px 24px; margin-bottom: 12px; border: 1px solid #e8e0f5; }
+  h2 { font-size: 18px; font-weight: 700; color: #6B4FA0; margin-bottom: 10px; border-left: 4px solid #6B4FA0; padding-left: 12px; }
+  p { font-size: 15px; color: #333; margin-bottom: 10px; }
+  p:last-child { margin-bottom: 0; }
+  ul { margin: 8px 0 0 20px; }
+  li { font-size: 15px; color: #333; margin-bottom: 6px; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .pill { background: #f3e5f5; color: #6B4FA0; border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+  .provider-row { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .provider { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: #faf8ff; border-radius: 10px; border: 1px solid #e8e0f5; }
+  .provider-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .provider-name { font-weight: 700; font-size: 14px; color: #1a1a2e; }
+  .provider-desc { font-size: 13px; color: #555; margin-top: 2px; line-height: 1.5; }
+  .provider-link { font-size: 12px; margin-top: 4px; }
+  .provider-link a { color: #6B4FA0; text-decoration: none; }
+  .contact-box { background: #6B4FA0; color: white; border-radius: 14px; padding: 24px; margin-top: 24px; }
+  .contact-box h2 { color: white; border-left-color: rgba(255,255,255,0.5); }
+  .contact-box p { color: rgba(255,255,255,0.9); }
+  .contact-box a { color: white; }
+  footer { text-align: center; font-size: 13px; color: #888; padding: 24px; border-top: 1px solid #f0e8ff; }
+  footer a { color: #9c6fb6; text-decoration: none; margin: 0 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔒 Security</h1>
+  <p>My Cancer Journey &nbsp;·&nbsp; How we protect your data</p>
+</header>
+
+<div class="back-bar">
+  <a href='/'>← Back to Home</a>
+</div>
+
+<div class="container">
+
+  <div class="highlight">
+    This app handles deeply personal health information. Below is a transparent account of the infrastructure we use, the security controls in place, and the third parties involved in running the service.
+  </div>
+
+  <div class="card">
+    <h2>Infrastructure &amp; Hosting</h2>
+    <p>My Cancer Journey is built on enterprise-grade cloud infrastructure:</p>
+    <div class="provider-row">
+      <div class="provider">
+        <div class="provider-icon">🗄️</div>
+        <div>
+          <div class="provider-name">Supabase (Database &amp; Authentication)</div>
+          <div class="provider-desc">All user data is stored in a PostgreSQL database managed by Supabase, hosted on Amazon Web Services (AWS) in the EU West region. Supabase is SOC 2 Type II certified.</div>
+          <div class="provider-link"><a href="https://supabase.com/security" target="_blank">supabase.com/security →</a></div>
+        </div>
+      </div>
+      <div class="provider">
+        <div class="provider-icon">🌐</div>
+        <div>
+          <div class="provider-name">Netlify (App Hosting)</div>
+          <div class="provider-desc">The web application is served via Netlify's global CDN with automatic HTTPS. Netlify is SOC 2 Type II certified.</div>
+          <div class="provider-link"><a href="https://www.netlify.com/security/" target="_blank">netlify.com/security →</a></div>
+        </div>
+      </div>
+      <div class="provider">
+        <div class="provider-icon">✉️</div>
+        <div>
+          <div class="provider-name">Resend (Transactional Email)</div>
+          <div class="provider-desc">Invitation and account emails are sent via Resend. Email addresses are passed to Resend solely for the purpose of delivering these messages and are not used for any other purpose.</div>
+          <div class="provider-link"><a href="https://resend.com/security" target="_blank">resend.com/security →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Encryption</h2>
+    <ul>
+      <li><strong>In transit:</strong> All communication between the app and our servers uses TLS 1.2 or higher (HTTPS). Data is never transmitted unencrypted.</li>
+      <li><strong>At rest:</strong> All data stored in the Supabase database is encrypted at rest using AES-256.</li>
+      <li><strong>Passwords:</strong> Passwords are never stored in plain text. Authentication is handled by Supabase Auth using industry-standard bcrypt hashing.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Access Control</h2>
+    <p>Your data can only be seen by you and people you explicitly invite. We enforce this at the database level using Supabase Row-Level Security (RLS) — meaning every database query is automatically filtered to the authenticated user's data, even if a bug existed in the application layer.</p>
+    <p>Invited users (Contributors and Viewers) are scoped to the data of the account owner only, and their access level is enforced server-side. Access can be revoked by the account owner at any time.</p>
+  </div>
+
+  <div class="card">
+    <h2>Authentication</h2>
+    <p>Users sign in with email and password via Supabase Auth. Sessions use short-lived JWTs (JSON Web Tokens) with secure refresh token rotation. Password reset links use the PKCE (Proof Key for Code Exchange) flow to prevent interception attacks, and always require a new password to be set before granting access.</p>
+  </div>
+
+  <div class="card">
+    <h2>Data Location</h2>
+    <p>All personal data is stored within the EU/UK region (AWS EU West). Data is not transferred to or processed in countries outside this region except where explicitly noted (e.g. email delivery via Resend, which operates under Standard Contractual Clauses).</p>
+  </div>
+
+  <div class="card">
+    <h2>Third-Party Data Sharing</h2>
+    <p>We do not sell, rent, or share your personal data with any third party for advertising, analytics, or commercial purposes. The only third parties who may process your data are the infrastructure providers listed above, each acting as a data processor under our instructions.</p>
+    <p>No data is shared with AI providers. The food recognition feature uses on-device processing or a direct API call where applicable — your food photos and health information are never used to train AI models.</p>
+  </div>
+
+  <div class="card">
+    <h2>Your Data Rights &amp; Deletion</h2>
+    <p>You can permanently delete your account and all associated data at any time from within the app under <strong>Settings → Delete My Account</strong>. This removes all records from the database and storage immediately. Supabase infrastructure backups may retain data for up to 30 additional days before full purge.</p>
+    <p>For a full description of your rights under UK GDPR, see our <a href='/privacy-policy' style='color:#6B4FA0;'>Privacy Policy</a>.</p>
+  </div>
+
+  <div class="card">
+    <h2>Security Summary</h2>
+    <div class="pill-row">
+      <div class="pill">🔒 TLS 1.2+ in transit</div>
+      <div class="pill">🔐 AES-256 at rest</div>
+      <div class="pill">🛡️ Row-level security</div>
+      <div class="pill">🇬🇧 UK/EU data region</div>
+      <div class="pill">🚫 No ads or tracking</div>
+      <div class="pill">🙅 Data never sold</div>
+      <div class="pill">✅ SOC 2 infrastructure</div>
+      <div class="pill">🔑 PKCE auth flow</div>
+    </div>
+  </div>
+
+  <div class="contact-box">
+    <h2>Report a Security Issue</h2>
+    <p>If you discover a security vulnerability or believe your data has been compromised, please contact us immediately. We take all reports seriously and aim to respond within 24 hours.</p>
+    <p style="margin-top:10px;"><a href="mailto:support@mycancerjourney.co.uk"><strong>support@mycancerjourney.co.uk</strong></a></p>
+  </div>
+
+</div>
+
+<footer>
+  <a href='/'>Home</a>
+  <a href='/privacy-policy'>Privacy Policy</a>
+  <a href='/security'>Security</a>
+  <a href="mailto:support@mycancerjourney.co.uk">Contact</a>
+  <br><br>
+  &copy; 2026 My Cancer Journey Limited &nbsp;·&nbsp; Company No. 17318970
+</footer>
+
+</body>
+</html>
