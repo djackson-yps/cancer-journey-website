@@ -528,6 +528,50 @@
   }
   .privacy-strip a { color: rgba(255,255,255,0.55); font-size: 13px; text-decoration: underline; }
 
+  /* ── IPHONE INSTALL ── */
+  .iphone-section {
+    background: var(--purple-bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .iphone-steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  @media (min-width: 700px) {
+    .iphone-steps { grid-template-columns: repeat(3, 1fr); }
+  }
+  .iphone-step {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px 22px;
+    position: relative;
+  }
+  .iphone-step-num {
+    position: absolute;
+    top: -14px;
+    left: 22px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--purple);
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(107,79,160,0.3);
+  }
+  .iphone-step-icon { font-size: 30px; color: var(--purple); margin: 6px 0 14px; }
+  .iphone-step h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .iphone-step p { font-size: 14px; color: var(--text-muted); line-height: 1.6; max-width: 100%; }
+  .iphone-note { font-size: 13px; color: var(--text-muted); margin-top: 28px; }
+  .iphone-subhead { font-size: 15px; font-weight: 700; color: var(--purple); margin: 32px 0 4px; }
+
   /* ── CTA BANNER ── */
   .cta-banner {
     text-align: center;
@@ -905,6 +949,59 @@
     <div class="pill">🙅 Data never sold</div>
   </div>
   <a href='/privacy-policy'>Read our Privacy Policy →</a> &nbsp;&nbsp; <a href='/security'>Security details →</a>
+</section>
+
+<!-- IPHONE INSTALL -->
+<section class="section iphone-section" id="install-iphone">
+  <div class="section-label">Available now — web app</div>
+  <h2>Install it like an app — no store needed</h2>
+  <p>Our dedicated iPhone and Android apps are on their way. Until then, add My Cancer Journey to your Home Screen in a few taps and use it just like any other app.</p>
+
+  <h3 class="iphone-subhead">On iPhone (Safari)</h3>
+  <div class="iphone-steps">
+    <div class="iphone-step">
+      <div class="iphone-step-num">1</div>
+      <div class="iphone-step-icon"><i class="ti ti-dots" aria-hidden="true"></i></div>
+      <h3>Tap ••• then Share</h3>
+      <p>Visit <a href="https://app.mycancerjourney.co.uk" target="_blank" rel="noopener" style="color:var(--purple);font-weight:700;">app.mycancerjourney.co.uk</a> in Safari, tap the ••• button in the bottom-right corner, then tap Share.</p>
+    </div>
+    <div class="iphone-step">
+      <div class="iphone-step-num">2</div>
+      <div class="iphone-step-icon"><i class="ti ti-square-rounded-plus" aria-hidden="true"></i></div>
+      <h3>Tap "Add to Home Screen"</h3>
+      <p>Scroll down the share menu and choose <strong>Add to Home Screen</strong>.</p>
+    </div>
+    <div class="iphone-step">
+      <div class="iphone-step-num">3</div>
+      <div class="iphone-step-icon"><i class="ti ti-device-mobile" aria-hidden="true"></i></div>
+      <h3>Tap "Add" — you're done</h3>
+      <p>My Cancer Journey now sits on your Home Screen like any other app, ready to open in one tap.</p>
+    </div>
+  </div>
+
+  <h3 class="iphone-subhead" style="margin-top:44px;">On Android (Chrome)</h3>
+  <div class="iphone-steps">
+    <div class="iphone-step">
+      <div class="iphone-step-num">1</div>
+      <div class="iphone-step-icon"><i class="ti ti-dots-vertical" aria-hidden="true"></i></div>
+      <h3>Open in Chrome &amp; tap the menu</h3>
+      <p>Visit <a href="https://app.mycancerjourney.co.uk" target="_blank" rel="noopener" style="color:var(--purple);font-weight:700;">app.mycancerjourney.co.uk</a> in Chrome, then tap the ⋮ menu in the top-right corner.</p>
+    </div>
+    <div class="iphone-step">
+      <div class="iphone-step-num">2</div>
+      <div class="iphone-step-icon"><i class="ti ti-square-rounded-plus" aria-hidden="true"></i></div>
+      <h3>Tap "Install and create shortcut"</h3>
+      <p>Choose <strong>Install and create shortcut</strong> from the menu.</p>
+    </div>
+    <div class="iphone-step">
+      <div class="iphone-step-num">3</div>
+      <div class="iphone-step-icon"><i class="ti ti-device-mobile" aria-hidden="true"></i></div>
+      <h3>Confirm — you're done</h3>
+      <p>My Cancer Journey now sits on your Home Screen like any other app, ready to open in one tap.</p>
+    </div>
+  </div>
+
+  <p class="iphone-note">Our native Android app is currently in review with the Play Store and our iPhone app is coming soon — once they're live, we'll point you there instead.</p>
 </section>
 
 <!-- CTA -->
